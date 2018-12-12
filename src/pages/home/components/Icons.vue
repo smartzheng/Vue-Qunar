@@ -1,6 +1,6 @@
 <template>
   <div class="icons">
-    <swiper class="swiper">
+    <swiper class="swiper" :options="swiperOption">
       <swiper-slide v-for="(page,index) of pages" :key="index">
         <div class="icon" v-for="item of page" :key="item.id">
           <div class="icon-img">
@@ -10,6 +10,7 @@
           <p class="icon-desc">{{item.imgDesc}}</p>
         </div>
       </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
 </template>
@@ -20,7 +21,8 @@
     data: function () {
       return {
         swiperOption: {
-          autoplay: false
+          autoplay: false,
+          pagination: '.swiper-pagination'
         },
         iconItems: [{
           id: '0001',
@@ -94,9 +96,12 @@
 <style lang="stylus" type="text/stylus" scoped>
   @import "~styles/varibles.styl"
   @import "~styles/mixins.styl"
+  .swiper >>> .swiper-pagination-bullet-active
+    background mediumaquamarine
+
   .icons >>> .swiper
     height 0
-    padding-bottom 52.8%
+    padding-bottom 63%
 
     .icon
       position relative
