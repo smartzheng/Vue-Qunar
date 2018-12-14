@@ -6,7 +6,7 @@
       </div>
       <div class="button-list">
         <div class="button-wrapper">
-          <div class="button">成都</div>
+          <div class="button">{{this.$store.state.defaultCity}}</div>
         </div>
       </div>
 
@@ -16,7 +16,9 @@
 
 
       <div class="button-list">
-        <div class="button-wrapper" v-for="(city,index) of hotCities" :key="index">
+        <div class="button-wrapper" v-for="(city,index) of hotCities" :key="index"
+             @click="changeCity(city.name)"
+        >
           <div class="button" :key="city.id">{{city.name}}</div>
         </div>
       </div>
@@ -26,8 +28,8 @@
         :key="key"
         :ref="key">
         <div class="title border-topbottom">{{key}}</div>
-        <div class="item-list">
-          <div class="item border-bottom" v-for="city of cityGroup" :key="city.id">{{city.name}}
+        <div class="item-list" v-for="city of cityGroup" :key="city.id" @click="changeCity (city.name)">
+          <div class="item border-bottom">{{city.name}}
           </div>
         </div>
       </div>
@@ -41,23 +43,24 @@
   export default {
     name: 'CityList',
     props: {
-      cities: {},
+      cities: Object,
       hotCities: Array,
       letter: String
     },
     mounted () {
       this.scroll = new Bscroll(this.$refs.wrapper)
     },
+    methods: {
+      changeCity (city) {
+        this.$store.commit('changeCity', city)
+        this.$router.push('/')
+      }
+    },
     watch: {
       letter () {
         this.scroll.scrollToElement(this.$refs[this.letter][0])
       }
     }
-    // computed: {
-    //   ...mapState({
-    //
-    //   })
-    // }
   }
 </script>
 <style lang="stylus" type="text/stylus" scoped>
@@ -75,7 +78,7 @@
 
   .list
     left 0
-    top 1.72rem
+    top 1.8rem
     bottom 0
     right 0
     overflow hidden
